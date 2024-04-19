@@ -1,5 +1,6 @@
 import { Flex, Stack, Text } from '@chakra-ui/react';
-import LoginCard from './components/LoginCard';
+import LoginCard from './LoginCard';
+
 
 const Login = () => {
   return (
