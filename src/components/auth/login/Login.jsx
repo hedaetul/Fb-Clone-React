@@ -1,7 +1,6 @@
 import { Flex, Stack, Text } from '@chakra-ui/react';
 import LoginCard from './LoginCard';
 
-
 const Login = () => {
   return (
     <Flex h='100vh' gap={24} justifyContent='center' alignItems='center'>

@@ -10,20 +10,43 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Text,
 } from '@chakra-ui/react';
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import React, { useState } from 'react';
-import auth from '/src/config/firebase.js';
 
 const Register = ({ isOpen, onOpen, onClose }) => {
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
+  const [error, setError] = useState('');
   const [userCredentials, setUserCredentials] = useState({});
 
-  console.log(auth);
-
   const handleCredentials = (e) => {
-    setUserCredentials({ ...userCredentials, [e.target.name]: e.target.value });
+    setUserCredentials({
+      ...userCredentials,
+      [e.target.name]: e.target.value,
+    });
+    setError('');
     console.log(userCredentials);
+  };
+
+  const handleSignup = (e) => {
+    e.preventDefault();
+
+    const auth = getAuth();
+    createUserWithEmailAndPassword(
+      auth,
+      userCredentials.email,
+      userCredentials.password
+    )
+      .then((userCredential) => {
+        const user = userCredential.user;
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setError(error.message);
+      });
   };
 
   return (
@@ -60,9 +83,23 @@ const Register = ({ isOpen, onOpen, onClose }) => {
               />
             </FormControl>
           </ModalBody>
-
+          {error && (
+            <Text
+              color='red'
+              display='flex'
+              justifyContent='center'
+              alignItems='center'
+            >
+              {error}
+            </Text>
+          )}
           <ModalFooter>
-            <Button bg='green.50' _hover={{ bg: 'green.60' }} mr={3}>
+            <Button
+              onClick={(e) => handleSignup(e)}
+              bg='green.50'
+              _hover={{ bg: 'green.60' }}
+              mr={3}
+            >
               Sign Up
             </Button>
           </ModalFooter>
