@@ -11,15 +11,18 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
+  useToast,
 } from '@chakra-ui/react';
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
+import { auth } from '/src/config/firebase.js';
 
 const Register = ({ isOpen, onOpen, onClose }) => {
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
   const [error, setError] = useState('');
   const [userCredentials, setUserCredentials] = useState({});
+  const toast = useToast();
 
   const handleCredentials = (e) => {
     setUserCredentials({
@@ -33,7 +36,6 @@ const Register = ({ isOpen, onOpen, onClose }) => {
   const handleSignup = (e) => {
     e.preventDefault();
 
-    const auth = getAuth();
     createUserWithEmailAndPassword(
       auth,
       userCredentials.email,
@@ -47,6 +49,15 @@ const Register = ({ isOpen, onOpen, onClose }) => {
         const errorMessage = error.message;
         setError(error.message);
       });
+    onClose();
+    toast({
+      title: 'Account created.',
+      description: "We've created your account for you.",
+      status: 'success',
+      duration: 2000,
+      isClosable: true,
+      position: 'top-right'
+    });
   };
 
   return (

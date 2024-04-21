@@ -6,29 +6,30 @@ import {
   Input,
   Link,
   Stack,
+  Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 import Register from '../register/Register';
+import { auth } from '/src/config/firebase.js';
 
 const LoginCard = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [userCredentials, setUserCredentials] = useState({});
+  const [error, setError] = useState('');
 
   const handleCredentials = (e) => {
     setUserCredentials({
       ...userCredentials,
       [e.target.name]: e.target.value,
     });
-    console.log(userCredentials);
+    setError('');
   };
 
   const handleSignIn = (e) => {
     e.preventDefault();
-    console.log(auth);
 
-    const auth = getAuth();
     signInWithEmailAndPassword(
       auth,
       userCredentials.email,
@@ -41,8 +42,7 @@ const LoginCard = () => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode);
-        console.log(errorMessage);
+        setError(error.message);
       });
   };
 
@@ -68,6 +68,16 @@ const LoginCard = () => {
               h='50px'
             />
           </FormControl>
+          {error && (
+            <Text
+              color='red'
+              display='flex'
+              justifyContent='center'
+              alignItems='center'
+            >
+              {error}
+            </Text>
+          )}
           <Button
             onClick={(e) => handleSignIn(e)}
             w='full'
@@ -80,7 +90,7 @@ const LoginCard = () => {
           <Stack align='center'>
             <Link color='blue.50'>Forgotten password</Link>
           </Stack>
-          <Divider onClick={onOpen} size='2px' color='black' />
+          <Divider size='2px' color='black' />
           <Button
             onClick={onOpen}
             bg='green.50'

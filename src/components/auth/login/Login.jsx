@@ -3,7 +3,16 @@ import LoginCard from './LoginCard';
 
 const Login = () => {
   return (
-    <Flex h='100vh' gap={24} justifyContent='center' alignItems='center'>
+    <Flex
+      h='100vh'
+      gap={24}
+      justifyContent='center'
+      alignItems='center'
+      flexDirection={{
+        base: 'row',
+        md: 'column',
+      }}
+    >
       <Stack maxW='510px'>
         <Text textStyle='logo'>facebook</Text>
         <Text textStyle='h07'>
