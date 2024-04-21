@@ -5,12 +5,15 @@ const Login = () => {
   return (
     <Flex
       h='100vh'
-      gap={24}
+      gap={{
+        base: 12,
+        lg: 24,
+      }}
       justifyContent='center'
       alignItems='center'
       flexDirection={{
-        base: 'row',
-        md: 'column',
+        base: 'column',
+        lg: 'row',
       }}
     >
       <Stack maxW='510px'>
