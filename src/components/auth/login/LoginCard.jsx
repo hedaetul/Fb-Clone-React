@@ -4,13 +4,16 @@ import {
   Divider,
   FormControl,
   Input,
-  Link,
   Stack,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import {
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Register from '../register/Register';
 import { auth } from '/src/config/firebase.js';
 
@@ -18,6 +21,9 @@ const LoginCard = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [userCredentials, setUserCredentials] = useState({});
   const [error, setError] = useState('');
+  const [isSingedIn, setIsSingedIn] = useState(false);
+  const [authUser, setAuthUser] = useState(null);
+  const navigate = useNavigate();
 
   const handleCredentials = (e) => {
     setUserCredentials({
@@ -37,13 +43,19 @@ const LoginCard = () => {
     )
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
+        navigate('/home');
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        setError(error.message);
+        setError(errorMessage);
       });
+  };
+
+  const handleResetPassword = () => {
+    const email = prompt('pleas enter your email');
+    sendPasswordResetEmail(auth, email);
+    alert('Email sent! Check your inbox for password reset instructions.');
   };
 
   return (
@@ -88,7 +100,13 @@ const LoginCard = () => {
             Login
           </Button>
           <Stack align='center'>
-            <Link color='blue.50'>Forgotten password</Link>
+            <Text
+              cursor='pointer'
+              onClick={handleResetPassword}
+              color='blue.50'
+            >
+              Forgotten password
+            </Text>
           </Stack>
           <Divider size='2px' color='black' />
           <Button

@@ -29,7 +29,7 @@ const theme = extendTheme(
       },
     },
   },
-  withDefaultColorScheme({ colorScheme: 'blue' })
+  withDefaultColorScheme({ colorScheme: 'green' })
 );
 
 export default theme;

@@ -17,9 +17,9 @@ const Login = () => {
       }}
     >
       <Stack maxW='510px'>
-        <Text textStyle='logo'>facebook</Text>
+        <Text textStyle='logo'>konohabook</Text>
         <Text textStyle='h07'>
-          Facebook helps you connect and share with the people in your life.
+          konohabook helps you connect and share with the people in your life.
         </Text>
       </Stack>
       <Stack>
