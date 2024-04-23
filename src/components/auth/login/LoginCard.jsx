@@ -21,52 +21,34 @@ const LoginCard = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [userCredentials, setUserCredentials] = useState({});
   const [error, setError] = useState('');
-  const [isSingedIn, setIsSingedIn] = useState(false);
-  const [authUser, setAuthUser] = useState(null);
   const navigate = useNavigate();
-  const [email,setEmail] = useState('')
-  const [password,setPassword] = useState('')
 
+  const handleCredentials = (e) => {
+    setUserCredentials({
+      ...userCredentials,
+      [e.target.name]: e.target.value,
+    });
+    setError('');
+  };
 
+  const handleSignIn = (e) => {
+    e.preventDefault();
 
-  // const handleCredentials = (e) => {
-  //   setUserCredentials({
-  //     ...userCredentials,
-  //     [e.target.name]: e.target.value,
-  //   });
-  //   setError('');
-  // };
-
-  // const handleSignIn = (e) => {
-  //   e.preventDefault();
-
-  //   signInWithEmailAndPassword(
-  //     auth,
-  //     userCredentials.email,
-  //     userCredentials.password
-  //   )
-  //     .then((userCredential) => {
-  //       const user = userCredential.user;
-  //       navigate('/home');
-  //     })
-  //     .catch((error) => {
-  //       const errorCode = error.code;
-  //       const errorMessage = error.message;
-  //       setError(errorMessage);
-  //     });
-  // };
-
-  const handleSignIn = async (e) => {
-    e.preventDefault()
-    signInWithEmailAndPassword(auth,email,password)
-    .then((user)=> {
-     console.log(user);
-     navigate('/home')
-    })
-    .catch((error)=> {
-     console.log(error);
-    })
-   }
+    signInWithEmailAndPassword(
+      auth,
+      userCredentials.email,
+      userCredentials.password
+    )
+      .then((userCredential) => {
+        const user = userCredential.user;
+        navigate('/home');
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setError(errorMessage);
+      });
+  };
 
   const handleResetPassword = () => {
     const email = prompt('pleas enter your email');
@@ -80,7 +62,7 @@ const LoginCard = () => {
         <Stack spacing={4}>
           <FormControl>
             <Input
-              onChange={(e) => {setEmail(e.target.value)}}
+              onChange={(e) => handleCredentials(e)}
               type='email'
               name='email'
               placeholder='Email address or phone number'
@@ -89,7 +71,7 @@ const LoginCard = () => {
           </FormControl>
           <FormControl>
             <Input
-              onChange={(e) => {setPassword(e.target.value)}}
+              onChange={(e) => handleCredentials(e)}
               type='password'
               name='password'
               placeholder='Password'

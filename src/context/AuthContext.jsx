@@ -4,8 +4,8 @@ import { auth } from "../config/firebase";
 
 export const Context = createContext()
 
-export const AuthContext = () => {
-const [user,setUser] = useState()
+export const AuthContext = ({children}) => {
+const [user,setUser] = useState({})
 const [loading,setLoading] = useState(true)
 
 useEffect(()=> {
@@ -26,7 +26,7 @@ const values = {
 }
 
 return <Context.Provider value={values}>
-    {!loading && Children}
+    {!loading && children}
 </Context.Provider>
 
 }

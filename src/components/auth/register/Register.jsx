@@ -23,55 +23,41 @@ const Register = ({ isOpen, onOpen, onClose }) => {
   const [error, setError] = useState('');
   const [userCredentials, setUserCredentials] = useState({});
   const toast = useToast();
-  const [email,setEmail] = useState('')
-  const [password,setPassword] = useState('')
 
-  // const handleCredentials = (e) => {
-  //   setUserCredentials({
-  //     ...userCredentials,
-  //     [e.target.name]: e.target.value,
-  //   });
-  //   setError('');
-  //   console.log(userCredentials);
-  // };
+  const handleCredentials = (e) => {
+    setUserCredentials({
+      ...userCredentials,
+      [e.target.name]: e.target.value,
+    });
+    setError('');
+  };
 
-  // const handleSignup = (e) => {
-  //   e.preventDefault();
+  const handleSignup = async (e) => {
+    e.preventDefault();
 
-  //   createUserWithEmailAndPassword(
-  //     auth,
-  //     userCredentials.email,
-  //     userCredentials.password
-  //   )
-  //     .then((userCredential) => {
-  //       const user = userCredential.user;
-  //     })
-  //     .catch((error) => {
-  //       const errorCode = error.code;
-  //       const errorMessage = error.message;
-  //       setError(error.message);
-  //     });
-  //   onClose();
-  //   toast({
-  //     title: 'Account created.',
-  //     description: "We've created your account for you.",
-  //     status: 'success',
-  //     duration: 2000,
-  //     isClosable: true,
-  //     position: 'top-right'
-  //   });
-  // };
-
-  const handleSignUp = async (e) => {
-    e.preventDefault()
-   createUserWithEmailAndPassword(auth,email,password)
-   .then((user)=> {
-    console.log(user);
-   })
-   .catch((error)=> {
-    console.log(error);
-   })
-  }
+    createUserWithEmailAndPassword(
+      auth,
+      userCredentials.email,
+      userCredentials.password
+    )
+      .then((userCredential) => {
+        const user = userCredential.user;
+        onClose();
+        toast({
+          title: 'Account created.',
+          description: "We've created your account for you.",
+          status: 'success',
+          duration: 2000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setError(error.message);
+      });
+  };
 
   return (
     <>
@@ -93,7 +79,7 @@ const Register = ({ isOpen, onOpen, onClose }) => {
                 name='email'
                 ref={initialRef}
                 placeholder='Enter Your Email...'
-                onChange={(e) => {setEmail(e.target.value)}}
+                onChange={(e) => handleCredentials(e)}
               />
             </FormControl>
 
@@ -103,7 +89,7 @@ const Register = ({ isOpen, onOpen, onClose }) => {
                 type='password'
                 name='password'
                 placeholder='New Password'
-                onChange={(e) => {setPassword(e.target.value)}}
+                onChange={(e) => handleCredentials(e)}
               />
             </FormControl>
           </ModalBody>
@@ -119,7 +105,7 @@ const Register = ({ isOpen, onOpen, onClose }) => {
           )}
           <ModalFooter>
             <Button
-              onClick={(e) => handleSignUp(e)}
+              onClick={(e) => handleSignup(e)}
               bg='green.50'
               _hover={{ bg: 'green.60' }}
               mr={3}
