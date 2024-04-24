@@ -28,8 +28,15 @@ const theme = extendTheme(
         fontWeight: '400',
       },
     },
+    components: {
+      Icon: {
+        baseStyle: {
+          boxSize: '1.70rem',
+          cursor: 'pointer'
+        }
+      },
+    },
   },
-  withDefaultColorScheme({ colorScheme: 'green' })
 );
 
 export default theme;

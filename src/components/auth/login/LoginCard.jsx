@@ -60,7 +60,7 @@ const LoginCard = () => {
     <>
       <Card px='1rem' pt='1rem' pb='2rem' w='390px' h='350px'>
         <Stack spacing={4}>
-          <FormControl>
+          <FormControl >
             <Input
               onChange={(e) => handleCredentials(e)}
               type='email'

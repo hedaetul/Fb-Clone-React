@@ -3,7 +3,7 @@ import LoginCard from './LoginCard';
 
 const Login = () => {
   return (
-    <Flex
+    <Flex 
       h='100vh'
       gap={{
         base: 12,
